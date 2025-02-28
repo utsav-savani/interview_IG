@@ -159,16 +159,35 @@ lib/
     └── home_screen_integration_test.dart
 ```
 
-Explanation of Key Directories
+# Clean Architecture Folder Structure
 
-core/: Contains app-wide utilities, constants, and core functionalities
-data/: Implements data layer with local and remote data sources
-domain/: Defines core business logic and entities
-presentation/: Manages UI, state management, and user interactions
-routes/: Handles app navigation configuration
-di/: Sets up dependency injection
-test/: Contains unit and widget tests
-integration_test/: Includes end-to-end integration tests
+## Folder Layer Explanations
+
+### `core/`
+Contains app-wide utilities, constants, and core functionalities
+
+### `data/`
+Implements data layer with local and remote data sources
+
+### `domain/`
+Defines core business logic and entities
+
+### `presentation/`
+Manages UI, state management, and user interactions
+
+### `routes/`
+Handles app navigation configuration
+
+### `di/`
+Sets up dependency injection
+
+### `test/`
+Contains unit and widget tests
+
+### `integration_test/`
+Includes end-to-end integration tests
+
+## Architecture Principle
 
 This structure follows Clean Architecture principles, separating concerns and making the codebase modular and testable.
 
