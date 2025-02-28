@@ -169,22 +169,22 @@ Contains app-wide utilities, constants, and core functionalities
 ### `data/`
 Implements data layer with local and remote data sources
 
-### `domain/`
+## `domain/`
 Defines core business logic and entities
 
-### `presentation/`
+## `presentation/`
 Manages UI, state management, and user interactions
 
-### `routes/`
+## `routes/`
 Handles app navigation configuration
 
-### `di/`
+## `di/`
 Sets up dependency injection
 
-### `test/`
+## `test/`
 Contains unit and widget tests
 
-### `integration_test/`
+## `integration_test/`
 Includes end-to-end integration tests
 
 ## Architecture Principle
