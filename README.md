@@ -235,6 +235,15 @@ fvm flutter test integration_test/home_screen_integration_test.dart
 - Ensure you have the correct Flutter version (3.27.4)
 - Run `flutter pub get` to resolve dependencies
 - Use `build_runner` to generate required files
+ 
+## Important Notice
+ - .env files are pushed to this repository as this is an interview demo project.
+## Disclaimer
+In a real-world production scenario, .env files containing sensitive information should never be committed to version control. They should be:
+
+Added to .gitignore
+Provided as .env.example templates
+Managed through secure environment variable management
 
 
 ## Contact
