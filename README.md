@@ -1,164 +1,225 @@
-```markdown
 # Top 20 Songs Flutter Application
 
-This repository demonstrates a clean architecture Flutter application that fetches the Top-20 songs from an API, stores them in a local database (Isar), displays them in a list, and provides cart management and basic audio playback features. It includes:
+This repository demonstrates a clean architecture Flutter application that fetches the Top-20 songs from an API, stores them in a local database (Isar), displays them in a list, and provides cart management and basic audio playback features.
 
-- **Unit tests** (for domain use cases)
-- **Widget tests** (for UI components like the `HomeScreen`)
-- **Integration tests** (verifying the end-to-end flow on a real device/emulator)
-- A **forked** `isar_flutter_libs` package to accommodate build.gradle changes (namespace) needed for Android builds
+## Repository Details
 
-The app is built on **Flutter 3.27.4** (FVM configured).
+- **GitHub Repository**: [https://github.com/utsav-savani/interview_IG](https://github.com/utsav-savani/interview_IG)
 
----
+## Prerequisites
 
-## Features & Requirements
+- Flutter 3.27.4
+- Dart SDK
+- Flutter Version Management (FVM) recommended
 
-1. **App Flow**
-   - **API Fetch**: The app invokes the iTunes Top Songs API and stores the Top-20 songs in an Isar database.
-   - **Local Database**: Subsequent launches read from Isar unless a refresh is triggered.
-   - **List Display**: Shows each song’s album image, title, artist name (optional), an “Add to Cart” button, and an optional “Listen” icon.
-   - **Song Details**: Tapping a song navigates to a detail screen showing full info and optional audio playback.
-   - **Cart Management**:
-      - **Add to Cart**: The cart icon in the top right updates its badge count in real time.
-      - **View Cart**: Allows incrementing/decrementing quantities or removing items.
-      - **Checkout**: Displays a summary dialog of items. “DONE” clears the cart, “CANCEL” closes the dialog.
+## Getting Started
 
-2. **Connectivity**
-   - **One-Time API Fetch**: If data is already cached, the app displays it immediately. If the user forcibly refreshes (pull-to-refresh), or local data is empty, it attempts to fetch from the remote API.
-   - **Connectivity Handling**: A `ConnectivityCubit` listens for changes (online/offline). If the user goes offline, the app continues to serve cached data. When coming back online (and data is empty or in error), the app automatically re-fetches from the API.
+### 1. Clone the Repository
 
-3. **Architecture & State Management**
-   - **Clean Architecture**: Divided into `domain`, `data`, and `presentation` layers.
-   - **BLoC/Cubit**: Used for state management. E.g., `SongsCubit`, `CartCubit`, `PlayerCubit`, etc.
+There are two ways to clone the repository:
 
-4. **Bonus Points**
-   - **Better UI/UX**: A polished UI with a refresh indicator, cart badge, and album images.
-   - **Media Player Notification**: `just_audio_background` for Android media controls (play/pause).
-   - **Proper Test Coverage**: Unit, widget, and integration tests.
-
----
-
-## Folder Structure
-
-Below is an overview of the main folders:
-
-```
-lib/
-├── core/
-│   ├── constants/        # App-wide constants (e.g., AppConstants)
-│   ├── errors/           # Custom exceptions & failures
-│   ├── network/          # ConnectivityCubit, NetworkInfo, etc.
-│   ├── theme/            # App themes (light/dark)
-│   └── utils/            # Utility helpers
-│       ├── ui_helpers/   # Helper files (audio_controls_helper, cart_helper, etc.)
-│       └── media_query_utils.dart
-├── data/
-│   ├── datasources/
-│   │   ├── local/        # song_local_datasource.dart, cart_local_datasource.dart
-│   │   └── remote/       # song_remote_datasource.dart
-│   ├── models/           # Isar models, JSON models
-│   └── repositories/     # Implementations of domain repositories
-├── domain/
-│   ├── entities/         # Song, CartItem, etc.
-│   ├── repositories/     # Abstract repository interfaces
-│   └── usecases/         # get_songs.dart, add_to_cart.dart, etc.
-├── presentation/
-│   ├── bloc/
-│   │   ├── cart/         # CartCubit, CartState
-│   │   ├── player/       # PlayerCubit, PlayerState
-│   │   └── songs/        # SongsCubit, SongsState
-│   ├── screens/          # HomeScreen, CartScreen, SongDetailsScreen
-│   └── widgets/          # Reusable widgets (SongListItem, CartItemWidget, etc.)
-├── routes/
-│   └── app_router.dart   # go_router configuration
-├── di/
-│   └── injection_container.dart # get_it service locator initialization
-├── app.dart              # MultiBlocProviders & MaterialApp.router
-└── main.dart             # App entry point (init DI, JustAudioBackground, .env, etc.)
-
-test/
-├── domain/
-│   └── usecases/         # get_songs_test.dart, etc.
-├── presentation/
-│   └── screens/          # home_screen_test.dart
-└── widget_test.dart      # Additional tests
-
-integration_test/
-└── home_screen_integration_test.dart  # Integration test for HomeScreen
+#### Using HTTPS:
+```bash
+git clone https://github.com/utsav-savani/interview_IG.git
+cd interview_IG
 ```
 
-### Forked isar_flutter_libs
+#### Using SSH:
+```bash
+git clone git@github.com:utsav-savani/interview_IG.git
+cd interview_IG
+```
 
-We forked **isar_flutter_libs** to add the missing namespace in its `build.gradle`. This ensures a successful Android build with the latest AGP requirements. The forked version is included as a local or Git dependency in our `pubspec.yaml`.
+### 2. Set Up Flutter Version (Recommended)
 
----
+If you haven't installed FVM, install it first:
+```bash
+dart pub global activate fvm
+```
 
-## How to Run
+Install the specific Flutter version:
+```bash
+fvm install 3.27.4
+fvm use 3.27.4
+```
 
-### 1. Generate Code (Freezed/Build Runner)
+### 3. Get Dependencies
 
-If your project uses code generation for models (e.g., Freezed, Isar adapters, etc.), run:
+```bash
+fvm flutter pub get
+```
+
+### 4. Generate Required Code
 
 ```bash
 fvm flutter pub run build_runner build --delete-conflicting-outputs
 ```
 
-This generates all `.g.dart` or `.freezed.dart` files required for your models and other codegen.
+## Features & Requirements
 
-### 2. Run the App
+1. **App Flow**
+    - **API Fetch**: Retrieves Top-20 songs from iTunes API
+    - **Local Database**: Caches songs in Isar
+    - **List Display**: Shows song details with add to cart functionality
+    - **Song Details**: Detailed view with optional audio playback
+    - **Cart Management**: Real-time cart updates and checkout
 
-Use FVM or standard Flutter commands to run the app:
+2. **Connectivity**
+    - One-time API fetch with offline support
+    - Automatic data refresh when back online
 
-```bash
-fvm flutter run
+3. **Architecture**
+    - Clean Architecture
+    - BLoC/Cubit State Management
+
+## Folder Structure
+
+```
+lib/
+├── core/
+│   ├── constants/        # App-wide constants (e.g., AppConstants)
+│   │   └── app_constants.dart
+│   ├── errors/           # Custom exceptions & failures
+│   │   └── failures.dart
+│   ├── network/          # ConnectivityCubit, NetworkInfo, etc.
+│   │   ├── connectivity_cubit.dart
+│   │   └── network_info.dart
+│   ├── theme/            # App themes (light/dark)
+│   │   ├── app_theme.dart
+│   │   └── theme_constants.dart
+│   └── utils/            # Utility helpers
+│       ├── ui_helpers/   # Helper files
+│       │   ├── audio_controls_helper.dart
+│       │   └── cart_helper.dart
+│       └── media_query_utils.dart
+│
+├── data/
+│   ├── datasources/
+│   │   ├── local/        # Local data sources
+│   │   │   ├── song_local_datasource.dart
+│   │   │   └── cart_local_datasource.dart
+│   │   └── remote/       # Remote data sources
+│   │       └── song_remote_datasource.dart
+│   ├── models/           # Isar models, JSON models
+│   │   ├── song_model.dart
+│   │   └── cart_item_model.dart
+│   └── repositories/     # Repository implementations
+│       └── song_repository_impl.dart
+│
+├── domain/
+│   ├── entities/         # Core domain entities
+│   │   ├── song.dart
+│   │   └── cart_item.dart
+│   ├── repositories/     # Abstract repository interfaces
+│   │   ├── song_repository.dart
+│   │   └── cart_repository.dart
+│   └── usecases/         # Business logic use cases
+│       ├── get_songs.dart
+│       └── add_to_cart.dart
+│
+├── presentation/
+│   ├── bloc/             # State management cubits
+│   │   ├── cart/         # Cart-related state management
+│   │   │   ├── cart_cubit.dart
+│   │   │   └── cart_state.dart
+│   │   ├── player/       # Audio player state management
+│   │   │   ├── player_cubit.dart
+│   │   │   └── player_state.dart
+│   │   └── songs/        # Songs-related state management
+│   │       ├── songs_cubit.dart
+│   │       └── songs_state.dart
+│   ├── screens/          # App screens
+│   │   ├── home_screen.dart
+│   │   ├── cart_screen.dart
+│   │   └── song_details_screen.dart
+│   └── widgets/          # Reusable UI components
+│       ├── song_list_item.dart
+│       ├── cart_item_widget.dart
+│       └── custom_app_bar.dart
+│
+├── routes/               # Navigation configuration
+│   └── app_router.dart   # go_router configuration
+│
+├── di/                   # Dependency Injection
+│   └── injection_container.dart  # get_it service locator
+│
+├── app.dart              # MultiBlocProviders & MaterialApp.router
+└── main.dart             # App entry point
+│
+└── test/
+    ├── domain/
+    │   └── usecases/     # Domain layer tests
+    │       └── get_songs_test.dart
+    ├── presentation/
+    │   └── screens/      # Screen tests
+    │       └── home_screen_test.dart
+    └── widget_test.dart
+│
+└── integration_test/
+    └── home_screen_integration_test.dart
 ```
 
-*(If you’re not using FVM, just `flutter run`.)*
+Explanation of Key Directories
 
----
+core/: Contains app-wide utilities, constants, and core functionalities
+data/: Implements data layer with local and remote data sources
+domain/: Defines core business logic and entities
+presentation/: Manages UI, state management, and user interactions
+routes/: Handles app navigation configuration
+di/: Sets up dependency injection
+test/: Contains unit and widget tests
+integration_test/: Includes end-to-end integration tests
+
+This structure follows Clean Architecture principles, separating concerns and making the codebase modular and testable.
+
+## Running the App
+
+```bash
+# Using FVM
+fvm flutter run
+
+# Standard Flutter
+flutter run
+```
 
 ## Testing
 
-We have **unit tests** (in `test/domain/usecases`), **widget tests** (in `test/presentation/screens`), and **integration tests** (in `integration_test/home_screen_integration_test.dart`).
+### Run Unit and Widget Tests
+```bash
+fvm flutter test
+```
 
-1. **Unit & Widget Tests**
-   - Example commands:
-     ```bash
-     fvm flutter test test/domain/usecases/get_songs_test.dart
-     fvm flutter test test/presentation/screens/home_screen_test.dart
-     ```
-   - Or run all tests:
-     ```bash
-     fvm flutter test
-     ```
+### Run Specific Test
+```bash
+fvm flutter test test/domain/usecases/get_songs_test.dart
+```
 
-2. **Integration Test**
-   - We have an integration test for the HomeScreen in `integration_test/home_screen_integration_test.dart`.
-   - Run it with:
-     ```bash
-     fvm flutter test integration_test/home_screen_integration_test.dart
-     ```
-   - *Note:* For full plugin support (e.g., path_provider, audio), consider using `flutter drive` or the official `integration_test` runner on an actual device/emulator.
+### Run Integration Test
+```bash
+fvm flutter test integration_test/home_screen_integration_test.dart
+```
 
----
+## Additional Resources
+
+- **APK Download**: [Google Drive Link](https://drive.google.com/drive/folders/14DYrA5xOH-19HFsGDVCqGc6XWaIr2-L-?usp=drive_link)
 
 ## Highlights
 
-- **Offline Handling**: The app calls the API once on the first run (or when forced). If offline, it relies on Isar-cached data. When connectivity is restored, if the DB is empty or an error state exists, the app automatically re-fetches from the API.
-- **Swipe to Refresh**: Pull-to-refresh logic on the HomeScreen triggers a forced API call if the user wants the latest data.
-- **Cart & Checkout**: Real-time cart updates with increment/decrement quantity, checkout dialog, and a final clear on “DONE.”
-- **Audio Playback**: Optional listen icon using `just_audio_background` for Android media notifications.
+- Offline data handling
+- Swipe to refresh
+- Real-time cart management
+- Optional audio playback
+- Comprehensive test coverage
 
----
+## Troubleshooting
 
-## APK and Source Code
+- Ensure you have the correct Flutter version (3.27.4)
+- Run `flutter pub get` to resolve dependencies
+- Use `build_runner` to generate required files
 
-You can download the **APK** and **source code** from this Google Drive link:  
-[**Download**](https://drive.google.com/drive/folders/14DYrA5xOH-19HFsGDVCqGc6XWaIr2-L-?usp=drive_link)
 
----
+## Contact
 
-## Conclusion
+Utsav Savani - [GitHub Profile](https://github.com/utsav-savani)
 
-This project fulfills the requirements of displaying the Top-20 songs from the iTunes RSS feed, storing them locally, providing a cart system, and handling connectivity gracefully. We used a clean architecture approach, BLoC/Cubit for state management, and included thorough testing (unit, widget, and integration) to ensure reliability. Feel free to explore, run the tests, and experiment with the forked `isar_flutter_libs` for the Android build fix.
+Project Link: [https://github.com/utsav-savani/interview_IG](https://github.com/utsav-savani/interview_IG)
