@@ -67,6 +67,7 @@ fvm flutter pub run build_runner build --delete-conflicting-outputs
 2. **Connectivity**
     - One-time API fetch with offline support
     - Automatic data refresh when back online
+    - Network-Sensitive UI: Interface turns red when internet is disconnected
 
 3. **Architecture**
     - Clean Architecture
