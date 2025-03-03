@@ -223,6 +223,14 @@ fvm flutter test integration_test/home_screen_integration_test.dart
 
 - **APK Download**: [Google Drive Link](https://drive.google.com/drive/folders/14DYrA5xOH-19HFsGDVCqGc6XWaIr2-L-?usp=drive_link)
 
+## Screenshots
+
+![Home Screen](/screenshots/1.jpeg?raw=true "Home Screen with Top 20 Songs")
+
+![Song Details Screen](/screenshots/2.jpeg?raw=true "Song Details Screen")
+
+![Cart Screen](/screenshots/3.jpeg?raw=true "Cart Screen")  
+
 ## Highlights
 
 - Offline data handling
